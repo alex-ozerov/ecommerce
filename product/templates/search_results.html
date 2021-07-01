@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block category %}
+    <section class="container mt-3">
+        <div class="row align-items-md-stretch">
+            <div class="col-md-12 mt-3 mt-md-0 mt-lg-0 text-center">
+                <div class="h-100 p-5 text-white bg-dark rounded-3 d-block">
+                    <h1 class="text-uppercase d-inline-block me-2 text-white">Search results</h1>
+                    <h2 class="me-2 text-white">for <i>"{{ search_query }}"</i></h2>
+                    <p class="lead">{{ search_count }} products have been founded!</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <section class="container my-3 p-0">
+        {% for product in object_list %}
+            {% if forloop.first %}
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 m-0 p-0">
+            {% endif %}
+        <div class="card p-0 m-0 rounded-0 col">
+            <a href="{% url 'product-detail' product.slug %}">
+                <img src="data:image/jpg;base64, {{ product.image.base_64 }}" class="card-img-top" alt="...">
+            </a>
+            <div class="card-body">
+                <div class="card-title d-block text-center">
+                    <h4 class="d-block">
+                        <a href="{% url "product-detail" product.slug %}" class="text-decoration-none link-primary">
+                            {{ product.title }}
+                        </a>
+                    </h4>
+                    <a class="d-inline-block text-primary badge border-primary border text-lowercase
+                    rounded-pill text-decoration-none" href="{% url 'category-list' product.category.slug %}">
+                        <i>{{ product.category }}</i>
+                    </a>
+                </div>
+                <div class="card-text mt-2 container">
+                    {% for desc in product.get_description_as_list %}
+                        <ul class="list-group list-group-flush">
+                            <li class="p-0 mt-1 list-group-item text-center">
+                                <small class="text-secondary m-0 p-0 text-uppercase">{{ desc.0 }}: </small>
+                                <small class="badge text-dark m-0 p-0">{{ desc.1 }}</small>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between w-100 align-items-center ps-sm-3 pe-sm-4 px-md-1 px-lg-3">
+                <div class="btn-group btn-group-sm align-items-baseline align-self-baseline" role="group"
+                     aria-label="Basic example">
+                    <a href="{% url 'cart-add' product.slug 1 %}" class="btn btn-light text-primary text-capitalize">
+                        <strong>🛒 Add to cart</strong>
+                    </a>
+                    <button type="button" class="btn btn-light text-danger">♥</button>
+                </div>
+                <h5 class="text-dark d-inline p-0 m-0 d-block align-self-auto"><strong>
+                    {{ product.price|floatformat:-2 }}$</strong>
+                </h5>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 m-0 p-0">
+        {% endif %}
+        {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </section>
+{% endblock %}

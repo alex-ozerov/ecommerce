@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt-3 shadow-lg p-5 rounded-3">
+        <h3 class="text-center text-uppercase">Create new order</h3>
+        <form method="POST" enctype="multipart/form-data" class="row mt-3">
+            {% csrf_token %}
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    {{ form.first_name }}
+                    {{ form.first_name.label_tag }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    {{ form.last_name }}
+                    {{ form.last_name.label_tag }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-floating mb-3">
+                    {{ form.phone }}
+                    {{ form.phone.label_tag }}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-floating mb-3">
+                    {{ form.address }}
+                    {{ form.address.label_tag }}
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-grid gap-2" type="submit">
+                    <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block additional_content %}
+    {% if buy_now %}
+        {% include 'partials/cart_buy_now.html' %}
+    {% else %}
+        {% include 'partials/cart.html' %}
+    {% endif %}
+{% endblock %}

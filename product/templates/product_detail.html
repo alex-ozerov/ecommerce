@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt-3 rounded-3 border shadow-lg p-2 p-md-4 p-lg-5">
+        <div class="row p-1">
+            <div class="col-md-5 p-0 m-auto">
+                <img src="data:image/jpg;base64, {{ product.image.base_64 }}" class="d-block img-fluid"
+                     alt="Bootstrap Themes" loading="lazy">
+            </div>
+            <div class="col-md-7 d-grid justify-content-center py-5">
+                <div class="d-flex flex-column position-static">
+                    <a href="{% url 'category-list' product.category.slug %}"
+                       class="text-decoration-none d-inline-block text-primary mb-2">
+                        <strong>{{ object.category.title }}</strong>
+                    </a>
+                    <h1 class="display-5 fw-bold lh-1 mb-2">{{ object.title }}</h1>
+                    <h1 class="display-5 fw-bold lh-1 mb-3 text-primary">{{ object.price|floatformat:-2 }}$</h1>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <a type="button" class="btn btn-primary" href="{% url 'cart-add' object.slug 1 %}">
+                            <strong>🛒 Add to cart</strong></a>
+                        <a type="button" class="btn btn-outline-primary" href="{% url 'buy-now' product.slug %}">
+                            <strong>Buy now!</strong></a>
+                        <button type="button" class="btn btn-outline-danger">♥</button>
+                    </div>
+                    <div class="card-text mt-4">
+                        {% for desc in product.get_description_as_list %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <small class="text-secondary text-uppercase">{{ desc.0 }}: </small>
+                                    <small class="badge text-dark">{{ desc.1 }}</small>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block comments %}
+    <section class="container text-center rounded-3 g-2">
+        <div class="row">
+            {% for comment in comments_list %}
+                <div class="col-md-6 justify-content-around mt-3">
+                    <div class="rounded-3 border shadow-lg p-2 d-flex justify-content-between">
+                        <p class="text-start m-0 d-inline-block px-2">
+                            <strong>@{{ comment.user.username }}</strong>
+                            rated: ☆{{ comment.rate }}
+                        </p>
+                        <p class="m-0 d-inline-block text-end text-primary px-2">
+                            <small>{{ comment.updated_at.date }}</small></p>
+                    </div>
+                    <div class="rounded-3 border p-4 mt-1">
+                        <p class="text-start px-3 text-primary text-uppercase">
+                            <strong><small>{{ comment.subject }}</small></strong>
+                        </p>
+                        <p class="d-block text-start px-3">
+                            {{ comment.comment }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'product-detail' object.slug %}" enctype="multipart/form-data"
+                  class="row mt-3">
+                {% csrf_token %}
+                <div class="col-8">
+                    <div class="form-floating mb-3">
+                        {{ form.subject }}
+                        {{ form.subject.label_tag }}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-floating mb-3">
+                        {{ form.rate }}
+                        {{ form.rate.label_tag }}
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-floating mb-3">
+                        {{ form.comment }}
+                        {{ form.comment.label_tag }}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="d-grid gap-2" type="submit">
+                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </section>
+{% endblock %}
+{% block additional_content %}
+    <section class="row align-items-md-stretch mt-3">
+        <div class="col-md">
+            <div class="justify-content-center d-flex w-100 h-100 align-items-center border rounded-3 p-5">
+                <div class="d-block text-center">
+                    <h6 class="text-dark text-uppercase mb-2">Categories</h6>
+                    {% for category in categories_list %}
+                        <p class="badge border border-primary rounded-pill mx-1">
+                            <a href="{% url 'category-list' category.slug %}" class="text-decoration-none">
+                                <i>{{ category.title }}</i>
+                            </a>
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 mt-3 mt-md-0 mt-lg-0">
+            <div class="h-100 p-5 text-white bg-dark rounded-3 d-block">
+                <h1 class="text-uppercase d-inline-block me-2 text-white">Electric personal transporter</h1>
+                <p>The motorised micromobility vehicle for transporting an individual at speeds that do not normally
+                    exceed 25 km/h (16 mph). Include electric skateboards, kick scooters, electric bicycle and
+                    self-balancing unicycles.
+                </p>
+                <button class="btn btn-sm rounded-2 btn-secondary text-dark" type="button">
+                    <i><strong>Contact us</strong></i></button>
+            </div>
+        </div>
+    </section>
+{% endblock %}

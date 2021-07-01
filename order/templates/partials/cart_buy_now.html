@@ -1,0 +1,8 @@
+<section class="container mt-3 shadow-lg p-5 rounded-3 text-center">
+    <p>
+        <a href="{% url 'product-detail' order.product.slug %}">{{ order.product.title }}</a>
+        x1
+    </p>
+        <h5 class="text-uppercase">Total cost:</h5>
+        <h3>{{ order.total_price|floatformat:-2 }}$</h3>
+</section>

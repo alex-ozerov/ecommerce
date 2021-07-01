@@ -1,0 +1,30 @@
+<nav class="container-fluid navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom sticky-top shadow">
+    <a class="navbar-brand text-white" href=""><strong>Navbar</strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item px-1">
+                <a class="nav-link {% if request.resolver_match.url_name == "product-list" %}active disabled{% endif %}"
+                   aria-current="page" href="{% url 'product-list' %}"><i><strong>All products</strong></i></a>
+            </li>
+            <li class="nav-item px-1">
+                <a class="nav-link" href="#"><i><strong>Shipping and payment</strong></i></a>
+            </li>
+            <li class="nav-item px-1">
+                <a class="nav-link" href="#"><i><strong>About us</strong></i></a>
+            </li>
+            <li class="nav-item px-1">
+                <a class="nav-link {% if request.resolver_match.url_name == "cart-view" %}active disabled{% endif %}"
+                   aria-current="page" href="{% url "cart-view" %}">
+                    <i><strong>Cart: {{ cart_count }}</strong></i></a>
+            </li>
+        </ul>
+        <form type="get" action="{% url 'search-product' %}" class="d-flex">
+            <input id="search_box" name="search_box" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-sm rounded-2 btn-dark text-light" type="submit">🔍</button>
+        </form>
+    </div>
+</nav>

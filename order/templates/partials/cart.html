@@ -1,0 +1,32 @@
+<section class="container mt-3 shadow-lg p-5 rounded-3 text-center">
+    {% if not request.resolver_match.url_name == "new-order" %}
+        <h3 class="text-uppercase mb-3">Your shopping cart</h3>
+    {% endif %}
+
+    {% for order in object_list %}
+        <p><a href="{% url 'product-detail' order.product.slug %}">{{ order.product.title }}</a>
+            x{{ order.quantity }}
+            per {{ order.product.price|floatformat:-2 }}$
+
+        {% if not request.resolver_match.url_name == "new-order" %}
+            <a href="{% url 'cart-add' order.product.slug 1 %}">Add 1</a>
+            <a href="{% url 'cart-remove' order.product.slug 1 %}">Remove 1</a>
+            <a href="{% url 'cart-remove' order.product.slug order.quantity %}">Remove all</a>
+        {% endif %}
+        </p>
+        <p>{{ order.total_price|floatformat:-2 }}$</p>
+    {% empty %}
+        <h3>
+            Cart is empty
+        </h3>
+    {% endfor %}
+    {% if object_list %}
+        <h5 class="text-uppercase">Total cost:</h5>
+        <h3>{{ total_price|floatformat:-2 }}$</h3>
+        {% if not request.resolver_match.url_name == "new-order" %}
+            <a href="{% url 'new-order' 0 %}" class="btn btn-primary mt-2">
+                Confirm order
+            </a>
+        {% endif %}
+    {% endif %}
+</section>

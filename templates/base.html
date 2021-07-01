@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Django ecommerce</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap_v5.css' %}" rel="stylesheet">
+    <style>
+        @media (max-width: 780px) {
+            .card:nth-child(n+2) {
+                border-top: 0 !important;
+            }
+
+        }
+
+        @media (min-width: 780px) and (max-width: 1024px) {
+            .row .card:nth-child( 2n ) {
+                border-left: none;
+            }
+
+            .row .card:nth-child( n+3 ) {
+                border-top: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .card + .card {
+                border-left: none;
+            }
+
+            .row:nth-child( n+2 ) .card {
+                border-top: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    {% include 'partials/navigation.html' %}
+    <div class="container-fluid justify-content-center">
+        {% block category %}
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% block comments %}
+        {% endblock %}
+
+        {% block additional_content %}
+        {% endblock %}
+    </div>
+
+    <footer class="pt-3 mt-4 text-muted border-top">
+        &copy; 2021
+    </footer>
+</main>
+
+<script src="{% static 'js/bootstrap_v5.min.js' %}"></script>
+
+</body>
+</html>
