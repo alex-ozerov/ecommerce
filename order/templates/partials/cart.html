@@ -4,17 +4,17 @@
     {% endif %}
 
     {% for order in object_list %}
+    <img src="data:image/jpg;base64, {{ order.product.image.base_64 }}" width="200" height="222" alt="...">
         <p><a href="{% url 'product-detail' order.product.slug %}">{{ order.product.title }}</a>
-            x{{ order.quantity }}
+            quantity x{{ order.quantity }}
             per {{ order.product.price|floatformat:-2 }}$
-
         {% if not request.resolver_match.url_name == "new-order" %}
             <a href="{% url 'cart-add' order.product.slug 1 %}">Add 1</a>
             <a href="{% url 'cart-remove' order.product.slug 1 %}">Remove 1</a>
             <a href="{% url 'cart-remove' order.product.slug order.quantity %}">Remove all</a>
+            <a>total:{{ order.total_price|floatformat:-2 }}$</a>
         {% endif %}
         </p>
-        <p>{{ order.total_price|floatformat:-2 }}$</p>
     {% empty %}
         <h3>
             Cart is empty

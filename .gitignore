@@ -1,1 +1,5 @@
 virtualenv
+venv
+.idea
+db.sqlite3
+_pycache_

@@ -14,8 +14,6 @@ from .forms import OrderForm
 from product.views import setup_cart
 
 
-# Create your views here.
-
 def get_cart_items(self):
     cart = self.request.session['cart']
     products = Product.objects.filter(slug__in=cart.keys())
@@ -140,5 +138,4 @@ class OrderFormView(FormView):
         order.save()
         return super(OrderFormView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        return redirect('new-order')
+

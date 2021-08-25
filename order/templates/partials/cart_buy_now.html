@@ -1,4 +1,5 @@
 <section class="container mt-3 shadow-lg p-5 rounded-3 text-center">
+    <img src="data:image/jpg;base64, {{ order.product.image.base_64 }}" width="200" height="222" alt="...">
     <p>
         <a href="{% url 'product-detail' order.product.slug %}">{{ order.product.title }}</a>
         x1
