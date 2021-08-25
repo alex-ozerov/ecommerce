@@ -1,5 +1,4 @@
-virtualenv
 venv
+virtualenv
 .idea
-db.sqlite3
-_pycache_
+__pycache__
